@@ -1,0 +1,7 @@
+@import "tailwindcss";
+@import "tailwindcss/preflight";
+@import "tailwindcss-primeui";
+@tailwind utilities;
+body{
+    font-family: Arial, serif;
+}
