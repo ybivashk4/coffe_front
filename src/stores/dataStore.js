@@ -8,7 +8,8 @@ export const useDataStore = defineStore("dataHalls", {
         halls_total: null,
         shop: [],
         shop_total: null,
-        errorMessage: ""
+        errorMessage: "",
+        errorCode: ""
     }),
     actions: {
         async get_halls(page = 0, perpage = 5) {
@@ -85,5 +86,35 @@ export const useDataStore = defineStore("dataHalls", {
                 console.error(error);
             }
         },
+        async create_hall(fromData) {
+            this.errorMessage = "";
+            try {
+                const response = await axios.post(backUrl + '/hall', fromData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                        Authorization: `Bearer ${localStorage.getItem("token")}`
+                    }
+                });
+                this.errorCode = response.data.code;
+                this.errorMessage = response.data.message;
+            }
+            catch(error) {
+                if (error.response) {
+                    this.errorCode = 11;
+                    this.errorMessage = error.response.data.message;
+                    console.error(error);
+                }
+                else if (error.request) {
+                    this.errorCode = 12;
+                    this.errorMessage = error.message;
+                    console.error(error);
+                }
+                else {
+                    this.errorCode = 13;
+                    this.errorMessage = error.message;
+                    console.error(error);
+                }
+            }
+        }
     }
 })

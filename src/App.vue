@@ -20,19 +20,25 @@
       </a>
     </template>
     <template #end>
-      <div class="flex items-center gap-2">
+      <div class="my-div">
         <div v-if="isAuthenticated && user">
           <span class="pi pi-fw pi-user mr-4"/>
             {{user.name}}
           <Button @click="logout" class="ml-4">Выйти</Button>
         </div>
         <div v-else>
-          <form @submit.prevent="login">
-              <InputText v-model="email" type="email" id="email" required placeholder="Логин"
-                         class="m-2 sm:w-auto" :class="{'p-invalid': authError}"/>
-              <InputText v-model="password" type="password" id="password" required placeholder="Пароль"
-                         class="m-2 sm:w-auto" :class="{'p-invalid': authError}"/>
-              <Button type="submit">Войти</Button>
+          <Button
+              v-if="!showLoginForm"
+              @click="showLoginForm = true"
+              label="Войти"
+              icon="pi pi-sign-in"
+          />
+          <form v-else @submit.prevent="login" class="my-form">
+            <InputText v-model="email" type="email" id="email" required placeholder="Логин"
+                       class="m-2 sm:w-auto" :class="{'p-invalid': authError}"/>
+            <InputText v-model="password" type="password" id="password" required placeholder="Пароль"
+                       class="m-2 sm:w-auto" :class="{'p-invalid': authError}"/>
+            <Button type="submit">Войти</Button>
             <Message v-if="authError" severity="error" variant="outlined">{{authError}}</Message>
           </form>
         </div>
@@ -58,6 +64,7 @@ export default {
       date: '',
       email: '',
       password: '',
+      showLoginForm: false,
       authStore: useAuthStore(),
       items: [
         {
@@ -133,6 +140,7 @@ export default {
   methods: {
     logout() {
       this.authStore.logout();
+      this.showLoginForm = false;
     },
     login() {
       this.authStore.login({
@@ -162,5 +170,15 @@ export default {
 }
 .error {
   color: red;
+}
+@media screen and (max-width: 1300px) {
+  .my-form {
+    width: 50%;
+  }
+  .my-div {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+  }
 }
 </style>

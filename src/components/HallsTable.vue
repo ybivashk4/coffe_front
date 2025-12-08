@@ -20,7 +20,9 @@
     <column field="capacity" header="Загруженность"></column>
     <Column header="Image" >
       <template #body="slotProps">
-        <img v-bind:src= " this.image_url + slotProps.data.image" :alt="slotProps.data.image" class="w-24 rounded" />
+<!--        <img v-bind:src= " this.image_url + slotProps.data.image" :alt="slotProps.data.image" class="w-24 rounded" />-->
+        <img v-bind:src= "slotProps.data.image" :alt="slotProps.data.image" class="w-24 rounded" />
+
       </template>
     </Column>
   </DataTable>
