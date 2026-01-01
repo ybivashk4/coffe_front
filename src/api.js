@@ -1,10 +1,11 @@
 import axios from 'axios';
 
 const apiClient = axios.create({
-    baseURL: 'http://localhost:8000/api',
+    baseURL: import.meta.env.VITE_BACKEND_URL,
     headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
+        'X-Frame-Options': 'DENY',
     }
 });
 
